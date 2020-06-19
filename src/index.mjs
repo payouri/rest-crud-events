@@ -1,9 +1,8 @@
-// import dotenv from 'dotenv'
-// dotenv.config()
-
-console.log(JSON.stringify(process.env))
+import dotenv from 'dotenv'
+dotenv.config()
 
 import Koa from 'koa'
+import http from 'http'
 import { logger } from './middlewares/logger.mjs'
 import router from './routes/index.mjs'
 import { connect as DBConnect } from './_db/connect.mjs'
@@ -14,6 +13,9 @@ const onError = err => {
 }
 
 const main = async () => {
+    http.get('http://bot.whatismyipaddress.com', (res) => {
+        console.log(res)
+    })
     await DBConnect()
 
     const app = new Koa()

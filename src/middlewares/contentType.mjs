@@ -1,5 +1,11 @@
 export const contentType = expected => async (ctx, next) => {
-    if (!ctx.is(expected)) ctx.throw(400)
+    if (!ctx.is(expected)) {
+        ctx.headers = {
+            ...ctx.headers,
+            accept: expected
+        }
+        ctx.throw(400)
+    }
     await next()
 }
 
@@ -10,6 +16,10 @@ export const contentTypes = expected => async (ctx, next) => {
             await next()
             return
         }
+    }
+    ctx.headers = {
+        ...ctx.headers,
+        accept: expected.join(',')
     }
     ctx.throw(400)
 }

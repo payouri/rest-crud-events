@@ -9,7 +9,11 @@ export const eventsRoute = new Router({ prefix: '/events' })
 eventsRoute.get('/', async (ctx, next) => {
 
     const { start, length } = ctx.query;
-    ctx.body = await getPage(Number(start), Number(length))
+    try {
+        ctx.body = await getPage(Number(start), Number(length))
+    } catch(err) {
+        ctx.throw(500)
+    }
 
 })
 
@@ -25,18 +29,25 @@ eventsRoute.get('/', async (ctx, next) => {
 eventsRoute.get('/:id', async (ctx, next) => {
     
     const { id } = ctx.params;
-    const event = await getById(id)
-    if(!event) ctx.throw(404)
-    ctx.body = event
+    try {
+        const event = await getById(id)
+        if(!event) ctx.throw(404)
+        ctx.body = event
+    } catch(err) {
+        ctx.throw(500)
+    }
 
 })
 
 eventsRoute.post('/', isJSON, validateData(eventSchema), async (ctx, next) => {
 
-    ctx.status = 200
-    const { ops } = await createOne(ctx.state.validatedBody)
-    ctx.body = ops[0]
-
+    try {
+        const { ops } = await createOne(ctx.state.validatedBody)
+        ctx.status = 200
+        ctx.body = ops[0]
+    } catch(err) {
+        ctx.throw(500)
+    }
 })
 
 eventsRoute.put('/:id', isJSON, validateData(eventSchema), async (ctx, next) => {

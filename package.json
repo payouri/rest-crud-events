@@ -1,0 +1,20 @@
+{
+  "name": "rest-event-service",
+  "version": "0.1.0",
+  "description": "REST API for event storing",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node --experimental-modules ./src/index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "dotenv": "^8.2.0",
+    "koa": "^2.12.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^9.0.1",
+    "mongodb": "^3.5.9"
+  }
+}

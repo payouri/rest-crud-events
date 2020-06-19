@@ -1,10 +1,7 @@
 export const contentType = expected => async (ctx, next) => {
     if (!ctx.is(expected)) {
-        ctx.headers = {
-            ...ctx.headers,
-            accept: expected
-        }
-        ctx.throw(400)
+        ctx.set('Accept', expected)
+        ctx.throw(400, 'Accept: ' + expected)
     }
     await next()
 }
@@ -17,11 +14,8 @@ export const contentTypes = expected => async (ctx, next) => {
             return
         }
     }
-    ctx.headers = {
-        ...ctx.headers,
-        accept: expected.join(',')
-    }
-    ctx.throw(400)
+    ctx.set('Accept', expected.join(','))
+    ctx.throw(400, 'Accept: ' + expected.join(','))
 }
 
 export const isJSON = contentType('application/json')

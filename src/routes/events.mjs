@@ -9,10 +9,19 @@ export const eventsRoute = new Router({ prefix: '/events' })
 
 eventsRoute.get('/', async (ctx, next) => {
 
-    const { page, length } = ctx.query;
+    let { page, length } = ctx.query;
+    page = Number(page)
+    length = Number(length)
+    if(isNaN(length) || length > 20 || length < 1) length = 20
+    if(isNaN(page) || page < 1) page = 0
     try {
-        ctx.body = await getPage(Number(page), Number(length))
-        ctx.body.next = `${ctx.hostname}/events?start=0&length=0`
+        ctx.body = await getPage(page, length)
+        ctx.body.next = (page + 1) * length > ctx.body.total ?
+            `/events?page=${page + 1}&length=${length}` :
+            null
+        ctx.body.prev = page * length > 0 ?
+            `/events?page=${page - 1}&length=${length}` :
+            null
     } catch(err) {
         ctx.throw(500)
     }

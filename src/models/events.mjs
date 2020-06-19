@@ -3,8 +3,6 @@ import MongoDB from 'mongodb'
 const { ObjectId } = MongoDB
 
 export const getPage = async (page, length) => {
-    if(isNaN(length) || length > 20 || length < 1) length = 20
-    if(isNaN(page) || page < 1) page = 0
     const collection = await events()
     const items = await collection.find({  }, { skip: length * page, limit: length }).toArray()
     const total = await collection.estimatedDocumentCount()

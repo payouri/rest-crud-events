@@ -8,7 +8,7 @@ export const getPage = async (page, length) => {
     const total = await collection.estimatedDocumentCount()
     return {
         events: items || [],
-        start,
+        page,
         length,
         currentPage: page,
         total: total || Number(0),

@@ -16,7 +16,7 @@ eventsRoute.get('/', async (ctx, next) => {
     if(isNaN(page) || page < 1) page = 0
     try {
         ctx.body = await getPage(page, length)
-        ctx.body.next = (page + 1) * length > ctx.body.total ?
+        ctx.body.next = (page + 1) * length < ctx.body.total ?
             `/events?page=${page + 1}&length=${length}` :
             null
         ctx.body.prev = page * length > 0 ?

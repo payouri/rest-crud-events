@@ -2,19 +2,19 @@ import { events } from '../_db/collections.mjs'
 import MongoDB from 'mongodb'
 const { ObjectId } = MongoDB
 
-export const getPage = async (start, length) => {
+export const getPage = async (page, length) => {
     if(isNaN(length) || length > 20 || length < 1) length = 20
-    if(isNaN(start) || start < 1) start = 0
+    if(isNaN(page) || page < 1) page = 0
     const collection = await events()
-    const items = await collection.find({  }, { skip: start, limit: length }).toArray()
+    const items = await collection.find({  }, { skip: length * page, limit: length }).toArray()
     const total = await collection.estimatedDocumentCount()
     return {
         events: items || [],
         start,
         length,
-        currentPage: start/length,
+        currentPage: page,
         total: total || Number(0),
-        totalPage: total%length == 0 ? total/length : length == 1 ? total : total/length + 1 
+        totalPage: total%length == 0 ? total/length : length == 1 ? total : Math.ceil(total/length)
     }
 }
 

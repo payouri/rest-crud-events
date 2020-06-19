@@ -9,9 +9,9 @@ export const eventsRoute = new Router({ prefix: '/events' })
 
 eventsRoute.get('/', async (ctx, next) => {
 
-    const { start, length } = ctx.query;
+    const { page, length } = ctx.query;
     try {
-        ctx.body = await getPage(Number(start), Number(length))
+        ctx.body = await getPage(Number(page), Number(length))
         ctx.body.next = `${ctx.hostname}/events?start=0&length=0`
     } catch(err) {
         ctx.throw(500)

@@ -10,7 +10,7 @@ import bodyParser from 'koa-bodyparser'
 const onError = err => {
     console.warn(err)
 }
-const tryLoop = () => {
+const tryLoop = async () => {
     try {
         await DBConnect()
     } 
@@ -21,8 +21,8 @@ const tryLoop = () => {
 } 
 const main = async () => {
 
-    tryLoop()
-    
+    await tryLoop()
+
     const app = new Koa()
     app.use(bodyParser())
     app.use(logger)

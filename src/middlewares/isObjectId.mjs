@@ -6,6 +6,6 @@ export const isParamObjectId = paramsName => async (ctx, next) => {
     if(paramsName.every(param => ObjectID.isValid(ctx.params[param]))) {
         await next()
     } else {
-        ctx.throw(404)
+        ctx.throw(400, 'malformed "id" param')
     }
 }

@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
+console.log(JSON.stringify(process.env))
+
 import Koa from 'koa'
 import { logger } from './middlewares/logger.mjs'
 import router from './routes/index.mjs'

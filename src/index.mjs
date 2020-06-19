@@ -22,7 +22,7 @@ const tryLoop = async () => {
 }
 const main = async () => {
 
-    http.get('bot.whatismyipaddress.com', (res) => {
+    http.get('http://bot.whatismyipaddress.com', (res) => {
         const { statusCode } = res;
         const contentType = res.headers['content-type'];
 

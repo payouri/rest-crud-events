@@ -23,6 +23,7 @@ eventsRoute.get('/', async (ctx, next) => {
             `/events?page=${page - 1}&length=${length}` :
             null
     } catch(err) {
+        console.log(err)
         ctx.throw(500)
     }
 

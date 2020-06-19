@@ -32,9 +32,8 @@ eventsRoute.delete('/:id', isParamObjectId('id'), async ctx => {
 
     const { id } = ctx.params
     try {
-        const res = await deleteOne(id)
-        console.log(res)
-        body.status = 200
+        await deleteOne(id)
+        ctx.status = 200
     } catch(err) {
         ctx.throw(500)
     }

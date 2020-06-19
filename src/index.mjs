@@ -21,7 +21,7 @@ const tryLoop = async () => {
 } 
 const main = async () => {
 
-    http.get('http://nodejs.org/dist/index.json', (res) => {
+    http.get('bot.whatismyipaddress.com', (res) => {
         const { statusCode } = res;
         const contentType = res.headers['content-type'];
       

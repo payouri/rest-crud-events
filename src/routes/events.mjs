@@ -3,6 +3,7 @@ import { validateData } from '../middlewares/validateData.mjs'
 import { eventSchema } from '../schemas/Event.mjs'
 import { getById, createOne, getPage, deleteOne } from '../models/events.mjs'
 import { isJSON } from '../middlewares/contentType.mjs'
+import { isParamObjectId } from '../middlewares/isObjectId.mjs'
 
 export const eventsRoute = new Router({ prefix: '/events' })
 
@@ -27,7 +28,20 @@ eventsRoute.get('/', async (ctx, next) => {
 
 // })
 
-eventsRoute.get('/:id', async (ctx, next) => {
+eventsRoute.delete('/:id', isParamObjectId('id'), async ctx => {
+
+    const { id } = ctx.params
+    try {
+        const res = await deleteOne(id)
+        console.log(res)
+        body.status = 200
+    } catch(err) {
+        ctx.throw(500)
+    }
+
+})
+
+eventsRoute.get('/:id', isParamObjectId('id'), async (ctx, next) => {
     
     const { id } = ctx.params;
     try {
@@ -51,7 +65,7 @@ eventsRoute.post('/', isJSON, validateData(eventSchema), async (ctx, next) => {
     }
 })
 
-eventsRoute.put('/:id', isJSON, validateData(eventSchema), async (ctx, next) => {
+eventsRoute.put('/:id', isParamObjectId('id'), isJSON, validateData(eventSchema), async (ctx, next) => {
 
     ctx.status = 200
     ctx.body = ctx.state.validatedBody
